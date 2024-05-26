@@ -15,8 +15,7 @@ void Graph::loadGraph(vector<vector<int>> gr)
 {
     this->graph = gr; 
     this->numOfVertices = gr.size(); 
-    this->getNumOfVertices= gr.size();
-    this->getNumOfVertices=gr[0].size();
+   
 
     size_t isD = 0;
     size_t isW = 0; 
@@ -185,7 +184,7 @@ Graph& Graph:: operator - (){
 }
 
 Graph& Graph:: operator -= (const Graph g1){
-    if(g1.getNumOfVertices()!= this->getgetNumOfVertices()){
+    if(g1.getNumOfVertices()!= this->getNumOfVertices()){
         cout<< "Matrices dimensions must be equal for subtraction"<<endl;
         exit(1);
     }
@@ -235,7 +234,6 @@ void Graph:: operator = (const Graph g1){
     this->loadGraph(g1.getGraph()); 
     
 }
-
 
 Graph Graph:: operator * (const Graph g1)const{
     if(this->getNumOfVertices()!= g1.getNumOfVertices()){
