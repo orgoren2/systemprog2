@@ -15,8 +15,8 @@ void Graph::loadGraph(vector<vector<int>> gr)
 {
     this->graph = gr; 
     this->numOfVertices = gr.size(); 
-    this->rows= gr.size();
-    this->cols=gr[0].size();
+    this->getNumOfVertices= gr.size();
+    this->getNumOfVertices=gr[0].size();
 
     size_t isD = 0;
     size_t isW = 0; 
@@ -76,14 +76,14 @@ void Graph::printGraph() const
 
 
 Graph Graph:: operator+ (const Graph g1)const{
-    if(g1.getRows()!= this->getRows() || g1.getCols()!= this->getCols()){
+    if(g1.getNumOfVertices()!= this->getNumOfVertices()){
         cout<< "Matrices dimensions must be equal for addition"<<endl;
         exit(1);
     }
 
     vector<vector<int>> graph1= this->getGraph();
     vector<vector<int>> graph2= g1.getGraph();
-    vector<vector<int>> graph3((size_t)this->getRows(),vector<int>((size_t)this->getCols(), 0));
+    vector<vector<int>> graph3((size_t)this->getNumOfVertices(),vector<int>((size_t)this->getNumOfVertices(), 0));
 
     for(size_t i=0;i<g1.getNumOfVertices();i++){
         for(size_t j=0;j<g1.getNumOfVertices();j++){
@@ -102,7 +102,7 @@ Graph& Graph:: operator + (){
 }
 
 Graph& Graph:: operator += (const Graph g1){
-    if(g1.getRows()!= this->getRows() || g1.getCols()!= this->getCols()){
+    if(g1.getNumOfVertices()!= this->getNumOfVertices()){
         cout<< "Matrices dimensions must be equal for addition"<<endl;
         exit(1);
     }
@@ -153,13 +153,13 @@ Graph Graph::operator++ (int num) {
 }
 
 Graph Graph:: operator- (const Graph g1)const{
-    if(g1.getRows()!= this->getRows() || g1.getCols()!= this->getCols()){
+    if(g1.getNumOfVertices()!= this->getNumOfVertices()){
         cout<< "Matrices dimensions must be equal for subtraction"<<endl;
         exit(1);
     }
     vector<vector<int>> graph1= this->getGraph();
     vector<vector<int>> graph2= g1.getGraph();
-    vector<vector<int>> graph3((size_t)this->getRows(),vector<int>((size_t)this->getCols(), 0));
+    vector<vector<int>> graph3((size_t)this->getNumOfVertices(),vector<int>((size_t)this->getNumOfVertices(), 0));
 
     for(size_t i=0;i<g1.getNumOfVertices();i++){
         for(size_t j=0;j<g1.getNumOfVertices();j++){
@@ -185,7 +185,7 @@ Graph& Graph:: operator - (){
 }
 
 Graph& Graph:: operator -= (const Graph g1){
-    if(g1.getRows()!= this->getRows() || g1.getCols()!= this->getCols()){
+    if(g1.getNumOfVertices()!= this->getgetNumOfVertices()){
         cout<< "Matrices dimensions must be equal for subtraction"<<endl;
         exit(1);
     }
@@ -238,14 +238,14 @@ void Graph:: operator = (const Graph g1){
 
 
 Graph Graph:: operator * (const Graph g1)const{
-    if(this->getCols()!= g1.getRows()){
+    if(this->getNumOfVertices()!= g1.getNumOfVertices()){
         cout<< "The size of the columns in matrix A have to be equal to the size of the rows in matrix B for duplicating"<<endl;
         exit(1);
     }
 
     vector<vector<int>> graph1= this->getGraph();
     vector<vector<int>> graph2= g1.getGraph();
-    vector<vector<int>> graph3((size_t)this->getRows(),vector<int>((size_t)g1.getCols(), 0));
+    vector<vector<int>> graph3((size_t)this->getNumOfVertices(),vector<int>((size_t)g1.getNumOfVertices(), 0));
 
     int temp=0;
     for(size_t i=0;i<graph1.size();i++){
@@ -410,9 +410,9 @@ ostream &ariel::operator<<(ostream &os, const Graph &gr)
    
     for (size_t i = 0; i < graph1.size(); i++) {
         os << "[";
-        for (size_t j = 0; j < gr.getCols(); j++) {
+        for (size_t j = 0; j < gr.getNumOfVertices(); j++) {
             os << graph1[i][j];
-            if (j < gr.getCols() - 1) {
+            if (j < gr.getNumOfVertices() - 1) {
                 os << ", ";
             }
         }

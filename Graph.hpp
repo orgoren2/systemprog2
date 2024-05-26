@@ -18,8 +18,7 @@ namespace ariel
         bool isWeighed ;
         int numOfVertices;
         int numOfEdges;
-        int rows;
-        int cols;
+
 
     public:
     
@@ -56,14 +55,7 @@ namespace ariel
         { 
             return this->graph;
         }
-        int getRows() const 
-        {
-            return this->rows;
-        }
-        int getCols() const
-        {
-            return this->cols;
-        }
+       
 
         // operator methods
         // The computing comperators
@@ -86,7 +78,6 @@ namespace ariel
 
         // The division operator
         Graph&  operator /= (int num);
-
 
         // The equality operators
         void operator = ( Graph g1);
