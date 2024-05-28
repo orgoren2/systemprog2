@@ -81,8 +81,6 @@ namespace ariel
 
         // The equality operators
         void operator = ( Graph g1);
-        
-        
         bool operator == (const Graph g1)const;
         bool operator != (const Graph g1)const;
         bool operator > (const Graph& g1) const;
