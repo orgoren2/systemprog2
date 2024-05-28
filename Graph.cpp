@@ -246,16 +246,18 @@ Graph&  Graph:: operator *= ( const int num){
 
 //Overloading the /= operator
 Graph& Graph:: operator /= (int num){
-
-    vector<vector<int>> graph1= this->getGraph();
-    //Dividing each element in the matrix with num
-    for(size_t i=0;i<this->getNumOfVertices();i++){
-        for(size_t j=0;j<this->getNumOfVertices();j++){
-            graph1[i][j]/=num;
+    //Making sure the scalar!=0
+    if(num!=0){
+        vector<vector<int>> graph1= this->getGraph();
+        //Dividing each element in the matrix with num
+        for(size_t i=0;i<this->getNumOfVertices();i++){
+            for(size_t j=0;j<this->getNumOfVertices();j++){
+                graph1[i][j]/=num;
+            }
         }
-    }
     
-    this->loadGraph(graph1);
+        this->loadGraph(graph1);
+    }
     return *this;
     
 }
