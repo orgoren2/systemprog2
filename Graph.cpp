@@ -11,8 +11,13 @@ using namespace ariel;
 /** The function gets vector and loads it to the graph.
  * It also initalizes the class fields
  */
+
 void Graph::loadGraph(vector<vector<int>> gr)
 {
+    if(gr.empty() || gr.size()==0 || gr.size()!=gr[0].size()){
+         throw invalid_argument("Invalid matrix");
+    }
+
     this->graph = gr; 
     this->numOfVertices = gr.size(); 
 
@@ -22,6 +27,9 @@ void Graph::loadGraph(vector<vector<int>> gr)
     {
         for (size_t z = 0; z < gr.size(); z++)
         {
+            if(i==z && gr[i][z]!=0){
+                throw invalid_argument("Invalid matrix");
+            }
             if (gr[i][z] != gr[z][i])
             {
                 isD++;
@@ -264,7 +272,7 @@ Graph& Graph:: operator /= (int num){
 
 
 //Overloading the = operator
-void Graph:: operator = (const Graph g1){
+void Graph:: operator = ( Graph g1){
     this->loadGraph(g1.getGraph()); 
     
 }

@@ -18,7 +18,7 @@ namespace ariel
         bool isWeighed ;
         int numOfVertices;
         int numOfEdges;
-
+        int countNumOfEdges(vector<vector<int>> gr) ;
 
     public:
     
@@ -31,7 +31,6 @@ namespace ariel
         }
 
         void loadGraph(vector<vector<int>> gr);
-        int countNumOfEdges(vector<vector<int>> gr) ;
         void printGraph() const;
 
         // inline methods

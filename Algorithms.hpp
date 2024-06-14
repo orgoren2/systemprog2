@@ -18,19 +18,20 @@ namespace ariel
     {
     private:
         Graph gr;
-    
-    static bool checkIsContainsCycle(size_t v, vector<bool> &visited, vector<size_t> &parent, stack<int> &cycle, vector<vector<int>> &graph);
-
+        static bool checkIsContainsCycle(size_t v, vector<bool> &visited, vector<size_t> &parent, stack<int> &cycle, vector<vector<int>> &graph);
+        static void DFS(size_t v, const vector<vector<int>>& graph, vector<bool>& visited);
 
     public:
        
-        static bool isConnected(Graph gr);
-        static string shortestPath(Graph gr, size_t start, size_t end);
-        static string shortestPathWeighed(Graph gr, size_t start, size_t end);
-        static string shortestPathUnweighed(Graph gr, size_t start, size_t end); // not good
-        static string isContainsCycle(Graph gr);
-        static string isBipartite(Graph gr);
-        static string negativeCycle(Graph gr);
+        static bool isConnected(const Graph& gr);
+        static bool isConnectedDirected(const Graph& gr);
+        static bool isConnectedUndirected(const Graph& gr);
+        static string shortestPath(const Graph& gr, size_t start, size_t end);
+        static string shortestPathWeighed(const Graph& gr, size_t start, size_t end);
+        static string shortestPathUnweighed(const Graph& gr, size_t start, size_t end); 
+        static string isContainsCycle(const Graph& gr);
+        static string isBipartite(const Graph& gr);
+        static string negativeCycle(const Graph& gr);
     
     };
 }
