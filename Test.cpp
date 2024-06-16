@@ -218,7 +218,7 @@ TEST_CASE("multiplication test")
 }
 
 
-TEST_CASE("Test errors in computing operators")
+TEST_CASE("Test addition of two graphs with different dimensions")
 {
     ariel::Graph g1;
     vector<vector<int>> graph = {
@@ -301,7 +301,7 @@ SUBCASE("Test operator > by number of edges"){
     CHECK((g4<g3)==true);
 }
 
-SUBCASE("Test operator > by number of vetices"){
+SUBCASE("Test operator > by number of vertices"){
     
     ariel::Graph g5;
     vector<vector<int>> graph4 = {

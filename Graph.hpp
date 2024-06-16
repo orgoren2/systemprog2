@@ -18,68 +18,44 @@ namespace ariel
         bool isWeighed ;
         int numOfVertices;
         int numOfEdges;
-        int countNumOfEdges(vector<vector<int>> gr) ;
-
+        int countNumOfEdges(const vector<vector<int>> &gr);
+    
     public:
     
-        Graph() {
-            this->isDirected=false;
-            bool isWeighed =false;
-            this->numOfEdges=0;
-            this->numOfVertices=0;
-          
-        }
-
-        void loadGraph(vector<vector<int>> gr);
+        Graph();
+        void loadGraph(const vector<vector<int>> &gr);
         void printGraph() const;
-
-        // inline methods
-        bool getIsDirected() const
-        { 
-            return this->isDirected;
-        }
-        bool getIsWeighed() const
-        { 
-            return this->isWeighed;
-        }
-        int getNumOfVertices() const
-        { 
-            return this->numOfVertices;
-        }
-        int getNumOfEdges() const
-        {
-            return this->numOfEdges;
-        }
-        vector<vector<int>> getGraph() const
-        { 
-            return this->graph;
-        }
+        bool getIsDirected() const;
+        bool getIsWeighed() const;
+        int getNumOfVertices() const;
+        int getNumOfEdges() const;
+        vector<vector<int>> getGraph() const;
        
 
         // operator methods
         // The computing comperators
 
         // The + operator
-        Graph operator + (const Graph g1) const;
-        Graph& operator += (Graph g1);
+        Graph operator + (const Graph g1) ;
+        Graph& operator += (const Graph g1);
         Graph& operator + ();
 
 
         // The - operator
         
-        Graph operator - (const Graph g1)const ;
-        Graph& operator -= (Graph g1);
+        Graph operator - (const Graph g1) ;
+        Graph& operator -= (const Graph g1);
         Graph& operator - ();
 
         // The * operator
-        Graph operator * (const Graph g1)const;
-        Graph&  operator *= (const int num);
+        Graph operator * (const Graph g1);
+        Graph&  operator *= (int num);
 
         // The division operator
         Graph&  operator /= (int num);
 
         // The equality operators
-        void operator = ( Graph g1);
+        void operator = ( const Graph g1);
         bool operator == (const Graph g1)const;
         bool operator != (const Graph g1)const;
         bool operator > (const Graph& g1) const;
@@ -92,7 +68,7 @@ namespace ariel
         
         // Increment/ decrement by 1
         Graph& operator++ ();
-         Graph operator++ (int num);
+        Graph operator++ (int num);
         Graph& operator-- ();
         Graph operator-- (int num);
         

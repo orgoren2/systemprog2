@@ -8,32 +8,44 @@ using namespace std;
 using namespace ariel;
 
 
-/** The function gets vector and loads it to the graph.
- * It also initalizes the class fields
+Graph::Graph()
+{
+    this->isDirected = false;
+    this->isWeighed = false;
+    this->numOfEdges = 0;
+    this->numOfVertices = 0;
+}
+
+/* The function gets vector and loads it to the graph.
+   It also initializes the class fields
  */
 
-void Graph::loadGraph(vector<vector<int>> gr)
+void Graph::loadGraph(const vector<vector<int>> &gr)
 {
-    if(gr.empty() || gr.size()==0 || gr.size()!=gr[0].size()){
-         throw invalid_argument("Invalid matrix");
+    if (gr.empty() || gr.size() == 0 || gr.size() != gr[0].size())
+    {
+        throw invalid_argument("Invalid matrix");
     }
 
-    this->graph = gr; 
-    this->numOfVertices = gr.size(); 
+    this->graph = gr;
+    this->numOfVertices = gr.size();
 
     size_t isD = 0;
-    size_t isW = 0; 
+    size_t isW = 0;
     for (size_t i = 0; i < gr.size(); i++)
     {
         for (size_t z = 0; z < gr.size(); z++)
         {
-            if(i==z && gr[i][z]!=0){
+            if (i == z && gr[i][z] != 0)
+            {
                 throw invalid_argument("Invalid matrix");
             }
+            //Checking if the graph is directed
             if (gr[i][z] != gr[z][i])
             {
                 isD++;
             }
+            //Checking if the graph is weighed
             if (gr[i][z] > 1)
             {
                 isW++;
@@ -53,8 +65,9 @@ void Graph::loadGraph(vector<vector<int>> gr)
 }
 
 // Side function for the print method
-int Graph::countNumOfEdges(vector<vector<int>> gr) 
+int Graph::countNumOfEdges(const vector<vector<int>> &gr)
 {
+
     int countEdges = 0;
     for (size_t i = 0; i < gr.size(); i++)
     {
@@ -66,17 +79,40 @@ int Graph::countNumOfEdges(vector<vector<int>> gr)
             }
         }
     }
-    if (this->isDirected)
+    if (this->isDirected == 1)
     {
         return countEdges;
     }
     return countEdges / 2;
 }
 
-// The function prints the graph's number of vertices and edges
+// The function prints the number of vertices and edgesin the graph
 void Graph::printGraph() const
 {
+
     cout << "Graph with " << this->numOfVertices << " vertices and " << this->numOfEdges << " edges" << endl;
+}
+
+bool Graph::getIsDirected() const
+{
+    return this->isDirected;
+}
+bool Graph::getIsWeighed() const
+{
+    return this->isWeighed;
+}
+int Graph::getNumOfVertices() const
+{
+    return this->numOfVertices;
+}
+// For testing countNumOfEdges
+int Graph::getNumOfEdges() const
+{
+    return this->numOfEdges;
+}
+vector<vector<int>> Graph::getGraph() const
+{
+    return this->graph;
 }
 
 
@@ -85,8 +121,8 @@ void Graph::printGraph() const
 // The computing operators
 
 // Overloading the + operator
-Graph Graph:: operator+ (const Graph g1)const{
-    //Checking if the number of vertices in both graphs are the same. If not, throwing an exception
+Graph Graph:: operator+ (const Graph g1){
+    //Checking if the number of vertices in both graphs are equal. If not, throwing an exception
     if(g1.getNumOfVertices()!= this->getNumOfVertices()){
         throw invalid_argument("Matrices dimensions must be equal for addition");
     }
@@ -109,7 +145,7 @@ Graph Graph:: operator+ (const Graph g1)const{
 
 //Overloading the += operator
 Graph& Graph:: operator += (const Graph g1){
-    //Checking if the number of vertices in both graphs are the same. If not, throwing an exception
+    //Checking if the number of vertices in both graphs are equal. If not, throwing an exception
     if(g1.getNumOfVertices()!= this->getNumOfVertices()){
         throw invalid_argument("Matrices dimensions must be equal for addition");
     }
@@ -122,7 +158,7 @@ Graph& Graph:: operator += (const Graph g1){
             graph1[i][j]=graph1[i][j]+graph2[i][j];
         }
     }
-    //loading the new matrix to the graph and return a copy of it
+    //loading the new matrix to the graph and return a reference of it
     this->loadGraph(graph1);
     return *this;
 }
@@ -130,15 +166,15 @@ Graph& Graph:: operator += (const Graph g1){
 
 // Overloading the unary + operator
 Graph& Graph:: operator + (){
-    // return a copy of the graph
+    // return a refernce of the graph
     return *this;
 }
 
 
 //Overloading the - operator
-Graph Graph:: operator- (const Graph g1)const{
+Graph Graph:: operator- (const Graph g1){
     
-    //Checking if the number of vertices in both graphs are the same. If not, throwing an exception
+    //Checking if the number of vertices in both graphs are equal. If not, throwing an exception
     if(g1.getNumOfVertices()!= this->getNumOfVertices()){
         throw invalid_argument("Matrices dimensions must be equal for subtraction");
     }
@@ -160,7 +196,7 @@ Graph Graph:: operator- (const Graph g1)const{
 
 //Overloading the -= operator
 Graph& Graph:: operator -= (const Graph g1){
-    //Checking if the number of vertices in both graphs are the same. If not, throwing an exception
+    //Checking if the number of vertices in both graphs are the equal. If not, throwing an exception
     if(g1.getNumOfVertices()!= this->getNumOfVertices()){
        throw invalid_argument("Matrices dimensions must be equal for subtraction");
     }
@@ -201,10 +237,10 @@ Graph& Graph:: operator - (){
 
 
 //Overloading the * operator
-Graph Graph:: operator * (const Graph g1)const{
+Graph Graph:: operator * (const Graph g1){
      //Checking if the number of vertices in both graphs are the same. If not, throwing an exception
     if(this->getNumOfVertices()!= g1.getNumOfVertices()){
-        throw invalid_argument("The size of the columns in matrix A have to be equal to the size of the rows in matrix B for duplicating");
+        throw invalid_argument("The size of the columns in matrix A have to be equal to the size of the rows in matrix B for multiplying");
     }
 
     vector<vector<int>> graph1= this->getGraph();
@@ -215,11 +251,14 @@ Graph Graph:: operator * (const Graph g1)const{
     If i==j, setting this element in the matrix to 0. 
     Else, multiply each element in a row of matrix A with the corresponding element in a column of matrix B 
     and then making addition between all the results.
-    For each row in matrix A we are repeating it n times (n=num of columns of B matrix) 
+    For each row in matrix A we are repeating it n times (n=num of columns of matrix B) 
     */
     int temp=0;
+    // i represents the rows in matrix A
     for(size_t i=0;i<graph1.size();i++){
+        // j represents the cols in matrix B
         for(size_t j=0;j<graph2[0].size();j++){
+            //If i==j, means it's a diagonal element
             if(i==j){
                 continue;
             }
@@ -237,7 +276,7 @@ Graph Graph:: operator * (const Graph g1)const{
 
 
 //Overloading the *= operator
-Graph&  Graph:: operator *= ( const int num){
+Graph&  Graph:: operator *= ( int num){
 
     vector<vector<int>> graph1= this->getGraph();
     //multiply each element in the matrix with num
@@ -272,7 +311,7 @@ Graph& Graph:: operator /= (int num){
 
 
 //Overloading the = operator
-void Graph:: operator = ( Graph g1){
+void Graph:: operator = (const Graph g1){
     this->loadGraph(g1.getGraph()); 
     
 }
@@ -313,48 +352,26 @@ bool Graph::operator >(const Graph& g1) const {
     vector<vector<int>> graph2= g1.getGraph();
     
     /* checking whether g1 graph contained in the other graph.
-    Making sure before that the numer of vertices in the two matrices equal to avoid exceptions.
-    */    if(this->getNumOfVertices()>=g1.getNumOfVertices()){
+    Making sure before that the number of vertices in the other graph bigger or equal to the number of vertices in g1 to avoid exceptions.
+    */    
+        if(this->getNumOfVertices()>=g1.getNumOfVertices()){
         int temp=0;
         for(size_t i=0;i<g1.getNumOfVertices();i++){
             for(size_t j=0;j<g1.getNumOfVertices();j++){
-                if(graph1[i][j]!=0 && graph2[i][j]!=0) {
-                    temp++;
+                if(graph1[i][j]==0 && graph2[i][j]!=0) {
+                    return false;
                 }
             }
-        }
-               
-        if(temp== g1.getNumOfEdges() &&temp!= this->getNumOfEdges()){
-            return true;
-        }
+        }     
+       return true;
         
     }
-    /* checking whether the other graph contained g1.
-    Making sure before that the numer of vertices in the two matrices equal to avoid exceptions.
-    */
-    if(this->getNumOfVertices()<=g1.getNumOfVertices()){
-        int temp=0;
-        for(size_t i=0;i<this->getNumOfVertices();i++){
-            for(size_t j=0;j<this->getNumOfVertices();j++){
-                if(graph1[i][j]!=0 && graph2[i][j]!=0){
-                    temp++;
-                }
-            }
-        }
-
-        if(temp== this->getNumOfEdges() && temp!= g1.getNumOfEdges() ){
-            return false;     
-        }
-    }
-    
+     
     //checking if the number of edges in g1 greater then g2
     if(this->getNumOfEdges()>g1.getNumOfEdges()){
         return true;
     }
-    if(this->getNumOfEdges()<g1.getNumOfEdges()){
-        return false;
-    }
-
+    
     //checking if the number of edges in g1 greater then g2
     if(this->getNumOfVertices()>g1.getNumOfVertices()){
         return true;
@@ -372,7 +389,7 @@ bool Graph::operator >= (const Graph& g1) const {
     return false;
 }
 
-//Overloading the >= operator
+//Overloading the < operator
 bool Graph::operator <(const Graph& g1) const {
 //Checking with the overloaded operator method > if the other graph smaller than g1
     if(*this> g1){
@@ -382,7 +399,7 @@ bool Graph::operator <(const Graph& g1) const {
 
 }
 
-//Overloading the >= operator
+//Overloading the <= operator
 bool Graph::operator <= (const Graph& g1) const {
     //Checking with the overloaded operator methods < and == if the other graph smaller or equal to g1
     if(*this<g1 || *this==g1){
@@ -427,7 +444,7 @@ Graph& Graph::operator++ () {
         }
     }
     this->loadGraph(graph1);
-    //return a copy of the graph when all the edges increment by 1
+    //return a copy of the graph when all the edges incremented by 1
     return *this;
 }
 
@@ -464,7 +481,7 @@ Graph& Graph::operator-- () {
             }
         }
     }
-    //return a copy of the graph when all the edges decrement by 1
+    //return a copy of the graph when all the edges decremented by 1
     this->loadGraph(graph1);
     return *this;
 }
